@@ -7,6 +7,10 @@
 #pragma once
 #include "PreProcessing.h"
 #include "IntensityImageStudent.h"
+#include "IntensityImagePrivate.h"
+#include "GrayscaleAlgorithm.h"
+#include <iostream>
+#include <chrono>
 #include <algorithm>
 class StudentPreProcessing : public PreProcessing {
 public:
