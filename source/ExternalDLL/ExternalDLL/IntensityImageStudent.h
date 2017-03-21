@@ -8,6 +8,7 @@
 #include "IntensityImage.h"
 class IntensityImageStudent : public IntensityImage {
 public:
+	Intensity *pixels;
 	IntensityImageStudent();
 	IntensityImageStudent(const IntensityImageStudent &other);
 	IntensityImageStudent(const int width, const int height);
