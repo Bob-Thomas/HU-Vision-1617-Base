@@ -13,7 +13,13 @@ IntensityImage * StudentPreProcessing::stepToIntensityImage(const RGBImage &imag
 
 	auto t3 = std::chrono::high_resolution_clock::now();
 	for (int i = 0; i < test->getWidth()*test->getHeight(); i++) {
-		test->setPixel(i, ((float)image.getPixel(i).r*0.299) + ((float)image.getPixel(i).g * 0.587) + ((float)image.getPixel(i).b * 0.114));
+		// Intensity  algoritm
+		test->setPixel(i, 0.299 * (image.getPixel(i).r + image.getPixel(i).g + image.getPixel(i).b));
+
+		// Luminace algoritm
+		//test->setPixel(i, ((float)image.getPixel(i).r*0.299) + ((float)image.getPixel(i).g * 0.587) + ((float)image.getPixel(i).b * 0.114));
+		
+
 		//test->setPixel(i, std::max({ image.getPixel(i).r, image.getPixel(i).g, image.getPixel(i).b}));
 	}
 	auto t4 = std::chrono::high_resolution_clock::now();
