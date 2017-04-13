@@ -18,14 +18,14 @@ int main(int argc, char * argv[]) {
 	//ImageFactory::setImplementation(ImageFactory::DEFAULT);
 	ImageFactory::setImplementation(ImageFactory::STUDENT);
 
-	ImageIO::debugFolder = "D:\\Users\\Rolf\\Downloads\\FaceMinMin";
+	ImageIO::debugFolder = "C:\\vision-debug\\";
 	ImageIO::isInDebugMode = true; //If set to false the ImageIO class will skip any image save function calls
 
 
 
 
 	RGBImage * input = ImageFactory::newRGBImage();
-	if (!ImageIO::loadImage("../../../testsets/SetA/TestSet_Images/child-1.png", *input)) {
+	if (!ImageIO::loadImage("C:\\vision-debug\\TestSet_Images\\male-3.png", *input)) {
 		std::cout << "Image could not be loaded!" << std::endl;
 		system("pause");
 		return 0;
@@ -35,49 +35,58 @@ int main(int argc, char * argv[]) {
 	ImageIO::saveRGBImage(*input, ImageIO::getDebugFileName("debug.png"));
 
 	DLLExecution * executor = new DLLExecution(input);
+	
+	// Speed test
+	// std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+	//if (!executor->executePreProcessingStep1(false)) {
+	//	std::cout << "Pre-processing step 1 failed!" << std::endl;
+	//	return false;
+	//}	
+	//std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+	//auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
 
+	//std::cout << duration << "\n";
 
+	//if (!executor->executePreProcessingStep2(false)) {
+	//	std::cout << "Pre-processing step 2 failed!" << std::endl;
+	//	return false;
+	//}
+	//ImageIO::saveIntensityImage(*executor->resultPreProcessingStep2, ImageIO::getDebugFileName("Pre-processing-male-3-opencv.png"));
+	//
+
+	//Execute the four Pre-processing steps
 	if (executeSteps(executor)) {
 		std::cout << "Face recognition successful!" << std::endl;
 		std::cout << "Facial parameters: " << std::endl;
 		for (int i = 0; i < 16; i++) {
-			std::cout << (i+1) << ": " << executor->facialParameters[i] << std::endl;
+			std::cout << (i + 1) << ": " << executor->facialParameters[i] << std::endl;
 		}
 	}
-
+	
 	delete executor;
-	system("pause");
 	return 1;
 }
-
-
-
-
-
-
-
-
-
 
 bool executeSteps(DLLExecution * executor) {
 
 	//Execute the four Pre-processing steps
-	if (!executor->executePreProcessingStep1(false)) {
+	if (!executor->executePreProcessingStep1(true)) {
 		std::cout << "Pre-processing step 1 failed!" << std::endl;
 		return false;
 	}
+
 
 	if (!executor->executePreProcessingStep2(false)) {
 		std::cout << "Pre-processing step 2 failed!" << std::endl;
 		return false;
 	}
 	ImageIO::saveIntensityImage(*executor->resultPreProcessingStep2, ImageIO::getDebugFileName("Pre-processing-2.png"));
-
+	
 	if (!executor->executePreProcessingStep3(false)) {
 		std::cout << "Pre-processing step 3 failed!" << std::endl;
 		return false;
 	}
-	ImageIO::saveIntensityImage(*executor->resultPreProcessingStep3, ImageIO::getDebugFileName("Pre-processing-3.png"));
+	//ImageIO::saveIntensityImage(*executor->resultPreProcessingStep3, ImageIO::getDebugFileName("Pre-processing-3.png"));
 
 	if (!executor->executePreProcessingStep4(false)) {
 		std::cout << "Pre-processing step 4 failed!" << std::endl;
@@ -219,6 +228,8 @@ void drawFeatureDebugImage(IntensityImage &image, FeatureMap &features) {
 	HereBeDragons::TriumphInLoveFleshStaysNoFatherReason(*debug, mouthLeft, colorRed);
 	HereBeDragons::TriumphInLoveFleshStaysNoFatherReason(*debug, mouthRight, colorRed);
 
-	ImageIO::saveRGBImage(*debug, ImageIO::getDebugFileName("feature-points-debug.png"));
-	delete debug;
+	//ImageIO::saveRGBImage(*debug, ImageIO::getDebugFileName("feature-points-debug.png"));
+
+
+	//delete debug;
 }
